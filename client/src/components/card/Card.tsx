@@ -1,7 +1,10 @@
-import { FlightProps } from "../interface";
+import { FlightData } from "../interface";
 import './Card.css';
 
-const Card = ({ flight }: { flight: FlightProps }) => {
+interface Props {
+    flight: FlightData
+}
+const Card = ({flight}: Props) => {
     return (
         <div className="card">
             <div className="card-header">

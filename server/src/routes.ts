@@ -1,12 +1,12 @@
 import { Express } from 'express';
-import getFlightsHandler from './controllers/flights.controller';
 import getFromToHandler from './controllers/fromTo.controller';
 
 function routes(app: Express) {
-    app.get('/api', getFlightsHandler);
+    app.get('/api', getFromToHandler);
 
-    app.get('/api/from/:from/to/:to', getFromToHandler);
+    // app.get('/api/from/:from/to/:to', getFromToHandler);
 
+    
     
 
     async function throwsError() {

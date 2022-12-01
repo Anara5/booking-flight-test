@@ -1,12 +1,11 @@
-import { SetStateAction, useEffect, useState } from 'react';
+import { useState } from 'react';
 import './SearchForm.css';
-import { FlightProps } from '../interface';
+import { SearchFormProps } from '../interface';
 
-function SearchForm (): JSX.Element {
-    
-    const [searchTerm, setSearchTerm] = useState('');
+const SearchForm = ({ setBackendData }: SearchFormProps) => {
     const [active, setActive] = useState(false);
-    const [backendData, setBackendData] = useState<FlightProps[]>([]);
+    const [from, setFrom] = useState('');
+    const [to, setTo] = useState('');
 
     const toggleRadioOneWay = () => {
         setActive(false);
@@ -15,13 +14,16 @@ function SearchForm (): JSX.Element {
         setActive(true);
     };
 
-    const handleChange = (e: { preventDefault: () => void; target: { value: SetStateAction<string>; }; }) => {
+    const handled = (e: any) => {
         e.preventDefault();
-        setSearchTerm(e.target.value);
+        if (from && to) {
+            console.log(from, to);
+            searchFlight();
+        }
     };
 
-    const searchFlight = async (from: any, to: any) => {
-        fetch(`api/from/${from}/to/${to}`, {
+    const searchFlight = () => { 
+        fetch(`/api/?from=${from}&to=${to}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,19 +31,17 @@ function SearchForm (): JSX.Element {
         })
         .then((res) => res.json())
         .then((data) => {
-            setBackendData(data);
-            console.log(data);
-        });
-    };
-
-    useEffect(() => {
-        searchFlight('Amsterdam', 'Oslo');
-    }, []);
+        setBackendData(data);
+        console.log(data);
+        }
+    );
+}
 
 
 
 
     return (
+        <>
         <div className='search-form'>
             <form className='search-form-inputs'>
                 <div className='form-radio'>
@@ -65,12 +65,16 @@ function SearchForm (): JSX.Element {
                         name='from'
                         placeholder='Enter departure city'
                         list='dataListOptions'
-                        onChange={handleChange}
+                        onChange={(e) => {setFrom(e.target.value)}}
                         />
                         <datalist id='dataListOptions'>
-                            {backendData.map((item, index) => (
-                                <option key={index} />
-                            ))}
+                            {/* {
+                                backendData.map((item, index) => {
+                                    return (
+                                        <option key={index} value={} />
+                                    );
+                                })
+                            } */}
                         </datalist>
                     </div>
                     <div className='form-group'>
@@ -82,12 +86,16 @@ function SearchForm (): JSX.Element {
                         name='to'
                         placeholder='Enter destination city'
                         list='dataListOptions'
-                        onChange={handleChange}
+                        onChange={(e) => {setTo(e.target.value)}}
                          />
                          <datalist id='dataListOptions'>
-                            {backendData.map((item, index) => (
-                                <option key={index} />
-                            ))}
+                            {/* {
+                                arrivalDestination.map((item, index) => {
+                                    return (
+                                        <option key={index} value={item} />
+                                    );
+                                })
+                            } */}
                         </datalist>
                     </div>
                 </div>
@@ -115,10 +123,11 @@ function SearchForm (): JSX.Element {
                 </div>
 
                 <div className='form-button'>
-                    <button type='submit' className='btn btn-primary'>Search</button>
+                    <button type='submit' className='btn btn-primary' onClick={e => handled(e)}>Search</button>
                 </div>
             </form>
         </div>
+        </>
     );
 }
 

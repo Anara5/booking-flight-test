@@ -1,6 +1,6 @@
-export interface FlightProps {
-    depatureDestination: string;
-    arrivalDestination: string;
+export interface FlightData {
+    depatureDestination: [];
+    arrivalDestination: [];
     itineraries: [{
         depatureAt: string;
         arriveAt: string;
@@ -10,5 +10,9 @@ export interface FlightProps {
             adult: number;
             child: number;
         }],
-    }],
-};
+    }]
+}
+
+export interface SearchFormProps {
+    setBackendData : (value: FlightData[]) => void;
+}
