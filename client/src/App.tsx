@@ -15,7 +15,7 @@ function App(): JSX.Element {
         </header>
 
         <div className='App-body'>
-          <SearchForm setBackendData={setBackendData}/>
+          <SearchForm setBackendData={setBackendData} />
         </div>
 
         { <div className='App-body-cards'>
@@ -27,6 +27,7 @@ function App(): JSX.Element {
               })
             }
         </div> }
+
       </div>
     );
   }

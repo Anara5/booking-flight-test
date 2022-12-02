@@ -2,14 +2,32 @@ import { FlightData } from "../interface";
 import './Card.css';
 
 interface Props {
-    flight: FlightData
+    flight: FlightData,
 }
-const Card = ({flight}: Props) => {
+
+const Card = ({ flight }: Props) => {
+
+    /*
+    // here is the method to filter nested fetched flight data 
+    // by availableSeats, date...
+    // just had problem with importing users input "depat" from SearchForm.tsx
+    // to Card.tsx.
+
+    const { depatureDestination, arrivalDestination, itineraries } = flight;
+    const filterData = itineraries.filter((item) => {
+        if (item.avaliableSeats > 0 && item.depatureAt.includes(depat)) {
+        return item;
+    }});
+    */
+
     return (
-        <div className="card">
-            <div className="card-header">
-                <h2>{flight.depatureDestination} {'--->'} {flight.arrivalDestination}</h2>
+        <>
+            <div className="card">
+                <div className="card-header">
+                    <h2>{flight.depatureDestination} {'--->'} {flight.arrivalDestination}</h2>
+                </div>
             </div>
+
             <div className="card-body">
                 <div className="card-body-content">
                     {
@@ -28,7 +46,7 @@ const Card = ({flight}: Props) => {
                     }
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

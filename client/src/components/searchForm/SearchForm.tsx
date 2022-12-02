@@ -6,6 +6,7 @@ const SearchForm = ({ setBackendData }: SearchFormProps) => {
     const [active, setActive] = useState(false);
     const [from, setFrom] = useState('');
     const [to, setTo] = useState('');
+    const [depat, setDepat] = useState('');
 
     const toggleRadioOneWay = () => {
         setActive(false);
@@ -14,31 +15,27 @@ const SearchForm = ({ setBackendData }: SearchFormProps) => {
         setActive(true);
     };
 
-    const handled = (e: any) => {
-        e.preventDefault();
-        if (from && to) {
-            console.log(from, to);
-            searchFlight();
-        }
-    };
-
-    const searchFlight = () => { 
+    const searchFlight = () => {
         fetch(`/api/?from=${from}&to=${to}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
         })
         .then((res) => res.json())
         .then((data) => {
-        setBackendData(data);
-        console.log(data);
+            setBackendData(data);
+        });
+    };
+
+
+    const handled = (e: any) => {
+        e.preventDefault();
+        if (from && to && depat) {
+            searchFlight();
         }
-    );
-}
-
-
-
+    };
 
     return (
         <>
@@ -67,15 +64,6 @@ const SearchForm = ({ setBackendData }: SearchFormProps) => {
                         list='dataListOptions'
                         onChange={(e) => {setFrom(e.target.value)}}
                         />
-                        <datalist id='dataListOptions'>
-                            {/* {
-                                backendData.map((item, index) => {
-                                    return (
-                                        <option key={index} value={} />
-                                    );
-                                })
-                            } */}
-                        </datalist>
                     </div>
                     <div className='form-group'>
                         <label htmlFor='to'>To </label>
@@ -88,22 +76,15 @@ const SearchForm = ({ setBackendData }: SearchFormProps) => {
                         list='dataListOptions'
                         onChange={(e) => {setTo(e.target.value)}}
                          />
-                         <datalist id='dataListOptions'>
-                            {/* {
-                                arrivalDestination.map((item, index) => {
-                                    return (
-                                        <option key={index} value={item} />
-                                    );
-                                })
-                            } */}
-                        </datalist>
                     </div>
                 </div>
 
                 <div className='form-destinations'>
                     <div className='form-group'>
                         <label htmlFor='depart'>Depart </label>
-                        <input type='date' className='form-control' id='depart' />
+                        <input type='date' className='form-control' id='depart'
+                        onChange={(e) => setDepat(e.target.value)}
+                        />
                     </div>
                     {active ? (
                         <div className='form-group'>
@@ -111,7 +92,6 @@ const SearchForm = ({ setBackendData }: SearchFormProps) => {
                             <input type='date' className='form-control' id='return' />
                         </div>
                     ) : 'One way' }
-                    
                 </div>
 
                 <div className='form-passengers'>
