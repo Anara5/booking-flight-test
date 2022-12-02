@@ -4,11 +4,6 @@ import getFromToHandler from './controllers/fromTo.controller';
 function routes(app: Express) {
     app.get('/api', getFromToHandler);
 
-    // app.get('/api/from/:from/to/:to', getFromToHandler);
-
-    
-    
-
     async function throwsError() {
         throw new Error('Error thrown');
     }
